@@ -234,4 +234,45 @@ def main():
 	parser.add_argument('-u', '--user', action='store_true', help='User API to show twitter user information.')
 	parser.add_argument('-m', '--map', action='store_true', help='Map Visualization render using Loklak service.')
 	parser.add_argument('-md', '--markdown', action='store_true', help='Markdown conversion API to render markdown as image using Loklak.')
-	args = parser.parse_args()
+        if sys.version[0] == '2':
+            input = raw_input
+        args = parser.parse_args()
+        loklak = Loklak()
+        if args.search:
+            pprint(loklak.search(
+                 input('Enter query: '),
+                 input('Enter since: '),
+                 input('Enter until: '),
+                 input('Enter fromUser: ')
+            ))
+        elif args.status:
+            pprint(loklak.status())
+        elif args.suggest:
+            pass
+        elif args.crawler:
+            pass
+        elif args.hello:
+            pprint(loklak.hello())
+        elif args.geocode:
+            pprint(loklak.geocode(
+                input('Enter places separated by ", ": ').split(', ')
+            ))
+        elif args.peers:
+            pprint(loklak.peers())
+        elif args.pushgeojson:
+            pass
+        elif args.user:
+            pprint(loklak.search(
+                 input('Enter name: '),
+                 input('Enter followers: '),
+                 input('Enter following: ')
+            ))
+        elif args.map:
+            pass
+        elif args.markdown:
+            pass
+        else:
+            print('Choose API method.')
+
+if __name__ == "__main__":
+     main()
