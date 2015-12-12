@@ -11,6 +11,7 @@ import time
 from collections import namedtuple
 import requests
 import json
+from pprint import pprint
 
 class Loklak (object):
 	baseUrl = 'http://loklak.org/api/'
@@ -227,11 +228,52 @@ def main():
 	parser.add_argument('-t', '--status', action='store_true', help='Status API Wrapper for the loklak status check.')
 	parser.add_argument('-st', '--suggest', action='store_true', help='Suggestions API Wrapper , Works better with local loklak instance.')
 	parser.add_argument('-c', '--crawler', action='store_true', help='Crawler API Wrapper on Loklak to crawl for tweets for a particular crawl depth.')
-	parser.add_argument('-h', '--hello' , action='store_true', help='Loklak status check API.')
+	parser.add_argument('-hl', '--hello', action='store_true', help='Loklak status check API.')
 	parser.add_argument('-g', '--geocode', action='store_true', help='Geocode API for geolocation based information.')
 	parser.add_argument('-p', '--peers', action='store_true', help='Loklak API for peers connected on the distributed network.')
 	parser.add_argument('-pg', '--pushgeojson', action='store_true', help='Public API to push geojson objects to the loklak server.')
 	parser.add_argument('-u', '--user', action='store_true', help='User API to show twitter user information.')
 	parser.add_argument('-m', '--map', action='store_true', help='Map Visualization render using Loklak service.')
 	parser.add_argument('-md', '--markdown', action='store_true', help='Markdown conversion API to render markdown as image using Loklak.')
-	args = parser.parse_args()
+        if sys.version[0] == '2':
+            input = raw_input
+        args = parser.parse_args()
+        loklak = Loklak()
+        if args.search:
+            pprint(loklak.search(
+                 input('Enter query: '),
+                 input('Enter since: '),
+                 input('Enter until: '),
+                 input('Enter fromUser: ')
+            ))
+        elif args.status:
+            pprint(loklak.status())
+        elif args.suggest:
+            pass
+        elif args.crawler:
+            pass
+        elif args.hello:
+            pprint(loklak.hello())
+        elif args.geocode:
+            pprint(loklak.geocode(
+                raw_input('Enter places separated by ", ": ').split(', ')
+            ))
+        elif args.peers:
+            pprint(loklak.peers())
+        elif args.pushgeojson:
+            pass
+        elif args.user:
+            pprint(loklak.search(
+                 input('Enter name: '),
+                 input('Enter followers: '),
+                 input('Enter following: ')
+            ))
+        elif args.map:
+            pass
+        elif args.markdown:
+            pass
+        else:
+            print('Choose API method.')
+
+if __name__ == "__main__":
+     main()
